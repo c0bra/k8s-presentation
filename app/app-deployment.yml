@@ -38,6 +38,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: http
+  type: NodePort
 ---
 apiVersion: apps/v1beta2
 kind: Deployment
