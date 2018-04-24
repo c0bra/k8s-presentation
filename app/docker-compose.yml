@@ -3,19 +3,19 @@ services:
   app:
     build:
       context: .
-    command: npm run docker:start
+    command: npm run dev
     ports:
       - "3000:80"
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
+    volumes:
+      - ./:/app
     networks:
       - mynetwork
 
   redis:
     image: redis:latest
-    ports:
-      - "6379:6379"
     command: redis-server --appendonly yes
     volumes:
       - /tmp/redis:/data

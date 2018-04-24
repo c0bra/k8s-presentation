@@ -11,7 +11,7 @@ const port = process.env.PORT || '3000';
 app.get('/', (req, res) => {
   client.get('requests', (err, val) => {
     val = val || 1;
-    res.send(`${os.hostname()} - ${val}`);
+    res.send(`Foobar2 - ${os.hostname()} - ${val}`);
 
     client.set('requests', ++val);
   });
