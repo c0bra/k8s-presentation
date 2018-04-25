@@ -40,6 +40,19 @@ spec:
     targetPort: http
   type: NodePort
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pv-claim
+  labels:
+    app: redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -57,10 +70,17 @@ spec:
         app: redis
     spec:
       containers:
-      - name: redis
-        image: redis:latest
-        ports:
-        - containerPort: 6379
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-persistent-storage
+              mountPath: /data
+      volumes:
+         - name: redis-persistent-storage
+           persistentVolumeClaim:
+             claimName: redis-pv-claim
 ---
 apiVersion: v1
 kind: Service
